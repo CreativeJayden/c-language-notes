@@ -21,25 +21,25 @@ configuration:
       code: Cascadia Mono
     colors:
       lightMode:
-        light: "#f5f7f6"
-        lightgray: "#dde3e0"
-        gray: "#8a9590"
-        darkgray: "#39423e"
-        dark: "#17211d"
-        secondary: "#176b68"
-        tertiary: "#b45309"
-        highlight: rgba(23, 107, 104, 0.13)
-        textHighlight: "#f6cf6488"
+        light: "#fbf8ef"
+        lightgray: "#e3ddcd"
+        gray: "#756d5d"
+        darkgray: "#39362f"
+        dark: "#28251f"
+        secondary: "#2f6f66"
+        tertiary: "#a2573b"
+        highlight: rgba(47, 111, 102, 0.12)
+        textHighlight: "#f1d77a88"
       darkMode:
-        light: "#171c1a"
-        lightgray: "#303a36"
-        gray: "#75807b"
-        darkgray: "#d4ddd9"
-        dark: "#eff4f2"
-        secondary: "#68c7bd"
-        tertiary: "#efad66"
-        highlight: rgba(104, 199, 189, 0.15)
-        textHighlight: "#8b741f88"
+        light: "#1f211f"
+        lightgray: "#373a34"
+        gray: "#96998e"
+        darkgray: "#d9d6cb"
+        dark: "#f0eee7"
+        secondary: "#8ec8bb"
+        tertiary: "#d39a7b"
+        highlight: rgba(142, 200, 187, 0.14)
+        textHighlight: "#7b6b2f88"
   links:
     markdownLinkResolution: shortest
   contentIndex:
@@ -223,12 +223,9 @@ plugins:
     enabled: true
     options:
       includeAll: false
-      includedProperties:
-        - description
-        - tags
-        - aliases
+      includedProperties: []
       excludedProperties: []
-      hidePropertiesView: false
+      hidePropertiesView: true
     order: 5
     layout:
       position: beforeBody
@@ -260,6 +257,7 @@ layout:
     toolbar:
       priority: 35
       direction: row
+      wrap: wrap
       gap: 0.5rem
   byPageType:
     "404":
