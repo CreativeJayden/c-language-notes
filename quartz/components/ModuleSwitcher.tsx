@@ -12,12 +12,14 @@ const modules = [
     index: "01",
     title: "C 语言",
     meta: "10 章 · 30 个主题",
+    startSlug: "1.c语言基础/1.1-基本概念",
   },
   {
     id: "linux",
     index: "02",
     title: "Linux",
     meta: "7 章 · 26 个主题",
+    startSlug: "linux系统编程/1.linux环境与开发入门/1.1-linux与嵌入式linux",
   },
 ] as const
 
@@ -46,9 +48,7 @@ export default ((options: ModuleSwitcherOptions = {}) => {
         <p class="knowledge-module-switch__eyebrow">{options.compact ? "切换模块" : "知识模块"}</p>
         <div class="knowledge-module-switch__list">
           {modules.map((module) => {
-            const href =
-              joinSegments(root, "index.html") +
-              (module.id === "linux" ? "#linux系统编程" : "#c语言")
+            const href = joinSegments(root, `${module.startSlug}.html`)
 
             return (
               <a
@@ -68,7 +68,7 @@ export default ((options: ModuleSwitcherOptions = {}) => {
           })}
         </div>
         {!options.compact && (
-          <p class="knowledge-module-switch__hint">选择模块，再从左侧进入具体章节。</p>
+          <p class="knowledge-module-switch__hint">选择模块，直接进入第一章。</p>
         )}
       </nav>
     )
