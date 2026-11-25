@@ -2,7 +2,9 @@
 
 按课程顺序整理的 C 语言与 Linux 系统编程公开知识库，使用 Quartz 生成静态网站，并通过 GitHub Pages 发布。
 
-在线访问：<https://CreativeJayden.github.io/c-language-notes/>
+简短网址：<https://CreativeJayden.github.io/>
+
+原发布地址：<https://CreativeJayden.github.io/c-language-notes/>
 
 ## 内容
 
