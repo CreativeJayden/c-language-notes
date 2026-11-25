@@ -149,11 +149,11 @@ KnowledgeNavigator.afterDOMLoaded = `
         ? "c"
         : undefined
     const isHome = slug === "index"
-    const activeModule = fromSlug || (isHome ? fromHash : undefined)
+    const activeModule = fromSlug || (isHome ? "c" : undefined)
     activeModuleForExplorer = activeModule
 
     document.body.classList.toggle("knowledge-home", isHome)
-    if (isHome) syncHomeModule(activeModule)
+    if (isHome) document.body.dataset.homeModule = activeModule || ""
 
     document.querySelectorAll("[data-knowledge-module]").forEach((link) => {
       const isActive = link.dataset.knowledgeModule === activeModule
@@ -166,27 +166,6 @@ KnowledgeNavigator.afterDOMLoaded = `
     })
 
     filterExplorer()
-  }
-
-  const syncHomeModule = (activeModule) => {
-    document.body.dataset.homeModule = activeModule || ""
-
-    const markdown = document.querySelector(".center > article .markdown-rendered")
-    if (!(markdown instanceof HTMLElement)) return
-
-    let currentModule
-    Array.from(markdown.children).forEach((child) => {
-      if (child instanceof HTMLElement && ["c语言", "linux系统编程"].includes(child.id)) {
-        currentModule = child.id === "c语言" ? "c" : "linux"
-      }
-
-      if (!currentModule) {
-        child.hidden = false
-        return
-      }
-
-      child.hidden = !activeModule || currentModule !== activeModule
-    })
   }
 
   const filterExplorer = () => {

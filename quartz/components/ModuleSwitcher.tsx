@@ -12,7 +12,7 @@ const modules = [
     index: "01",
     title: "C 语言",
     meta: "10 章 · 30 个主题",
-    startSlug: "1.c语言基础/1.1-基本概念",
+    startSlug: "index",
   },
   {
     id: "linux",
