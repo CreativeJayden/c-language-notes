@@ -185,6 +185,7 @@ KnowledgeNavigator.afterDOMLoaded = `
     const list = document.querySelector(".explorer-content #list-0")
     if (!(list instanceof HTMLElement)) return
     buildExplorerGroups()
+    retargetExplorerFolders()
 
     Array.from(list.querySelectorAll(":scope > [data-directory-module]")).forEach((group) => {
       if (!(group instanceof HTMLElement)) return
@@ -192,6 +193,23 @@ KnowledgeNavigator.afterDOMLoaded = `
       const isActive = groupModule === activeModuleForExplorer
       group.hidden = Boolean(activeModuleForExplorer) && !isActive
       setExplorerGroupOpen(group, Boolean(activeModuleForExplorer) && isActive)
+    })
+  }
+
+  const retargetExplorerFolders = () => {
+    const list = document.querySelector(".explorer-content #list-0")
+    if (!(list instanceof HTMLElement)) return
+
+    list.querySelectorAll("[data-folderpath]").forEach((folder) => {
+      if (!(folder instanceof HTMLElement)) return
+      const item = folder.closest("li")
+      if (!(item instanceof HTMLElement)) return
+
+      const firstNote = item.querySelector(
+        ".folder-outer .nav-file-title[href]",
+      )
+      if (!(firstNote instanceof HTMLAnchorElement)) return
+      folder.dataset.knowledgeFirstNoteHref = firstNote.href
     })
   }
 
@@ -395,6 +413,28 @@ KnowledgeNavigator.afterDOMLoaded = `
     observeExplorer()
     void renderSequence()
   }
+
+  const captureFolderLinks = (event) => {
+    if (!(event.target instanceof Element)) return
+    if (event.type === "pointerdown") return
+    const folder = event.target.closest(".folder-container")
+    if (!(folder instanceof HTMLElement)) return
+
+    const container = folder.querySelector("[data-folderpath]")
+    if (!(container instanceof HTMLElement)) return
+
+    const href = container.dataset.knowledgeFirstNoteHref
+    if (!href) return
+    const isKeyboard =
+      event.type === "keydown" && (event.key === "Enter" || event.key === " ")
+    if (event.type !== "click" && !isKeyboard) return
+    event.preventDefault()
+    window.location.href = href
+  }
+
+  document.addEventListener("click", captureFolderLinks, true)
+  document.addEventListener("pointerdown", captureFolderLinks, true)
+  document.addEventListener("keydown", captureFolderLinks, true)
 
   document.addEventListener("nav", run)
   document.addEventListener("render", run)

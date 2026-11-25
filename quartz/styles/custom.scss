@@ -927,6 +927,13 @@ footer {
   min-block-size: 3.6rem;
 }
 
+@media (min-width: 801px) {
+  .knowledge-sequence {
+    width: 66.6667%;
+    max-width: 34rem;
+  }
+}
+
 .knowledge-sequence:empty {
   visibility: hidden;
 }
@@ -1046,6 +1053,11 @@ footer {
 
 .sidebar.right .knowledge-module-switch {
   margin-block-start: 0.15rem;
+}
+
+.knowledge-module-switch--wide .knowledge-module-switch__item {
+  inline-size: 66.6667%;
+  justify-self: center;
 }
 
 @media (min-width: 1200px) {
