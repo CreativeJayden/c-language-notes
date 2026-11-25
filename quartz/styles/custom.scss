@@ -483,11 +483,12 @@ footer {
 #quartz-body > header {
   grid-area: grid-header;
   position: relative;
-  display: flex;
+  display: grid;
   box-sizing: border-box;
   min-block-size: 7.5rem;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-areas: "search title tools";
   align-items: center;
-  justify-content: flex-end;
   gap: 1rem;
   width: 100%;
   margin: 0;
@@ -500,11 +501,12 @@ footer {
 }
 
 #quartz-body > header .page-title {
-  position: absolute;
-  inset-inline-start: 50%;
+  position: static;
   z-index: 1;
+  grid-area: title;
+  justify-self: center;
   margin: 0;
-  transform: translateX(-50%);
+  transform: none;
   font-family: "KnowledgeBrush", "STXingkai", "KaiTi", cursive;
   font-size: clamp(2.8rem, 4vw, 4rem);
   font-size-adjust: from-font;
@@ -518,13 +520,21 @@ footer {
   text-decoration: none;
 }
 
-#quartz-body > header > .flex-component {
-  width: min(100%, 28rem);
-  margin-inline-start: auto;
+.knowledge-header-slot {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-#quartz-body > header > .flex-component > div {
-  min-width: 0;
+.knowledge-header-slot--left {
+  grid-area: search;
+  justify-self: start;
+}
+
+.knowledge-header-slot--right {
+  grid-area: tools;
+  justify-self: end;
 }
 
 #quartz-body > header .search {
@@ -574,10 +584,12 @@ footer {
 
 @media (max-width: 1199px) {
   #quartz-body > header {
-    display: grid;
     min-block-size: 0;
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: stretch;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "title title"
+      "search tools"
+      "module module";
     gap: 0.8rem;
     padding: 1rem;
   }
@@ -588,9 +600,16 @@ footer {
     transform: none;
   }
 
-  #quartz-body > header > .flex-component {
+  .knowledge-header-slot--left {
     width: 100%;
-    margin: 0;
+  }
+
+  .knowledge-header-slot--left .search {
+    width: 100%;
+  }
+
+  #quartz-body > header .knowledge-module-switch--compact {
+    grid-area: module;
   }
 
   #quartz-body > header .knowledge-module-switch--compact {
@@ -808,20 +827,20 @@ footer {
 
 .knowledge-module-switch__list {
   display: grid;
-  gap: 0.45rem;
+  gap: 0.38rem;
 }
 
 .knowledge-module-switch__item {
   position: relative;
   display: grid;
-  grid-template-columns: 2.2rem minmax(0, 1fr);
+  grid-template-columns: 2rem minmax(0, 1fr);
   grid-template-areas:
     "icon title"
     "icon meta";
-  min-block-size: 4.9rem;
+  min-block-size: 4.15rem;
   align-content: center;
-  column-gap: 0.55rem;
-  padding: 0.65rem;
+  column-gap: 0.5rem;
+  padding: 0.55rem;
   border: 1px solid var(--lightgray);
   border-radius: 6px;
   background: var(--surface-soft);
@@ -843,8 +862,8 @@ footer {
   position: relative;
   display: grid;
   grid-area: icon;
-  inline-size: 1.9rem;
-  block-size: 1.9rem;
+  inline-size: 1.7rem;
+  block-size: 1.7rem;
   place-items: center;
   border: 1px solid var(--lightgray);
   border-radius: 6px;
@@ -884,9 +903,9 @@ footer {
 }
 
 .knowledge-module-switch__hint {
-  margin: 0.55rem 0 0;
+  margin: 0.45rem 0 0;
   color: var(--gray);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   line-height: 1.4;
 }
 
@@ -1005,12 +1024,13 @@ footer {
 
 .knowledge-directory-module__toggle {
   width: 100%;
-  min-block-size: 2.75rem;
-  padding: 0.45rem 0.5rem;
+  min-block-size: 2.2rem;
+  padding: 0.28rem 0.45rem;
   border: 0;
   background: transparent;
   color: var(--darkgray);
   font: inherit;
+  font-size: 0.9rem;
   font-weight: 700;
   text-align: start;
   cursor: pointer;

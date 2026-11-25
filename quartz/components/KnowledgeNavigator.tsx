@@ -94,6 +94,40 @@ KnowledgeNavigator.afterDOMLoaded = `
   const getPageSlug = () =>
     (document.body?.dataset.slug || "").toLowerCase()
 
+  const layoutKnowledgeHeader = () => {
+    const header = document.querySelector("#quartz-body > header")
+    if (!(header instanceof HTMLElement) || header.dataset.knowledgeHeaderReady === "true") {
+      return
+    }
+
+    const toolbar = header.querySelector(":scope > .flex-component")
+    const pageTitle = header.querySelector(".page-title")
+    const search = header.querySelector(".search")
+    const darkmode = header.querySelector(".darkmode")
+    const skin = header.querySelector(".skin-switcher")
+    if (
+      !(toolbar instanceof HTMLElement) ||
+      !(pageTitle instanceof HTMLElement) ||
+      !(search instanceof HTMLElement) ||
+      !(darkmode instanceof HTMLElement) ||
+      !(skin instanceof HTMLElement)
+    ) {
+      return
+    }
+
+    const leftSlot = document.createElement("div")
+    leftSlot.className = "knowledge-header-slot knowledge-header-slot--left"
+    const rightSlot = document.createElement("div")
+    rightSlot.className = "knowledge-header-slot knowledge-header-slot--right"
+
+    leftSlot.appendChild(search)
+    rightSlot.append(darkmode, skin)
+    pageTitle.insertAdjacentElement("beforebegin", leftSlot)
+    pageTitle.insertAdjacentElement("afterend", rightSlot)
+    toolbar.remove()
+    header.dataset.knowledgeHeaderReady = "true"
+  }
+
   const syncActiveModule = () => {
     const slug = getPageSlug()
     const fromSlug = moduleForSlug(slug)
@@ -356,6 +390,7 @@ KnowledgeNavigator.afterDOMLoaded = `
   }
 
   const run = () => {
+    layoutKnowledgeHeader()
     syncActiveModule()
     observeExplorer()
     void renderSequence()
