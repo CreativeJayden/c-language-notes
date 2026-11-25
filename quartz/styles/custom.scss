@@ -475,6 +475,7 @@ footer {
 .center > .page-header {
   width: 100%;
   max-width: calc(var(--content-width) + (var(--notebook-gutter) * 2));
+  margin-block: 0;
   margin-inline: auto;
   padding: 0;
 }
@@ -798,29 +799,29 @@ footer {
 }
 
 .knowledge-module-switch__eyebrow {
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.5rem;
   color: var(--gray);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0;
 }
 
 .knowledge-module-switch__list {
   display: grid;
-  gap: 0.65rem;
+  gap: 0.45rem;
 }
 
 .knowledge-module-switch__item {
   position: relative;
   display: grid;
-  grid-template-columns: 2.5rem minmax(0, 1fr);
+  grid-template-columns: 2.2rem minmax(0, 1fr);
   grid-template-areas:
     "icon title"
     "icon meta";
-  min-block-size: 7rem;
+  min-block-size: 4.9rem;
   align-content: center;
-  column-gap: 0.7rem;
-  padding: 0.9rem;
+  column-gap: 0.55rem;
+  padding: 0.65rem;
   border: 1px solid var(--lightgray);
   border-radius: 6px;
   background: var(--surface-soft);
@@ -842,8 +843,8 @@ footer {
   position: relative;
   display: grid;
   grid-area: icon;
-  inline-size: 2.25rem;
-  block-size: 2.25rem;
+  inline-size: 1.9rem;
+  block-size: 1.9rem;
   place-items: center;
   border: 1px solid var(--lightgray);
   border-radius: 6px;
@@ -851,8 +852,8 @@ footer {
 }
 
 .knowledge-module-switch__icon svg {
-  inline-size: 1.15rem;
-  block-size: 1.15rem;
+  inline-size: 1rem;
+  block-size: 1rem;
 }
 
 .knowledge-module-switch__index {
@@ -870,23 +871,23 @@ footer {
 .knowledge-module-switch__title {
   grid-area: title;
   align-self: end;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 700;
 }
 
 .knowledge-module-switch__meta {
   grid-area: meta;
-  margin-block-start: 0.22rem;
+  margin-block-start: 0.1rem;
   color: var(--gray);
-  font-size: 0.75rem;
-  line-height: 1.45;
+  font-size: 0.7rem;
+  line-height: 1.35;
 }
 
 .knowledge-module-switch__hint {
-  margin: 0.85rem 0 0;
+  margin: 0.55rem 0 0;
   color: var(--gray);
-  font-size: 0.75rem;
-  line-height: 1.55;
+  font-size: 0.7rem;
+  line-height: 1.4;
 }
 
 .knowledge-module-switch--compact {
@@ -902,9 +903,9 @@ footer {
 .knowledge-sequence {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.75rem;
+  gap: 0.6rem;
   width: 100%;
-  min-block-size: 4.4rem;
+  min-block-size: 3.6rem;
 }
 
 .knowledge-sequence:empty {
@@ -917,17 +918,17 @@ footer {
 
 .knowledge-sequence--bottom {
   max-width: calc(var(--content-width) + (var(--notebook-gutter) * 2));
-  margin: 1.25rem auto 2rem;
+  margin: 1rem auto 1.5rem;
 }
 
 .knowledge-sequence__item {
   display: flex;
   min-width: 0;
-  min-block-size: 4.4rem;
+  min-block-size: 3.35rem;
   flex-direction: column;
-  justify-content: center;
-  gap: 0.18rem;
-  padding: 0.65rem 0.85rem;
+  justify-content: flex-start;
+  gap: 0.08rem;
+  padding: 0.45rem 0.65rem;
   border: 1px solid var(--lightgray);
   border-radius: 6px;
   background: var(--surface-soft);
@@ -952,14 +953,14 @@ footer {
 
 .knowledge-sequence__label {
   color: var(--secondary);
-  font-size: 0.76rem;
+  font-size: 0.7rem;
   font-weight: 700;
 }
 
 .knowledge-sequence__title {
   overflow-wrap: anywhere;
-  font-size: 0.92rem;
-  line-height: 1.45;
+  font-size: 0.88rem;
+  line-height: 1.35;
 }
 
 /* Directory rows follow the compact, boxed rhythm from the reference. */
@@ -981,6 +982,46 @@ footer {
 .explorer .nav-file-title:hover,
 .explorer .folder-title:hover {
   color: var(--secondary);
+}
+
+.knowledge-directory-module {
+  margin-block: 0.2rem;
+}
+
+.knowledge-directory-module__header {
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--surface-soft);
+}
+
+.knowledge-directory-module__header .folder-icon {
+  flex: 0 0 auto;
+  transition: transform 0.15s ease;
+}
+
+.knowledge-directory-module.is-collapsed .knowledge-directory-module__header .folder-icon {
+  transform: rotate(-90deg);
+}
+
+.knowledge-directory-module__toggle {
+  width: 100%;
+  min-block-size: 2.75rem;
+  padding: 0.45rem 0.5rem;
+  border: 0;
+  background: transparent;
+  color: var(--darkgray);
+  font: inherit;
+  font-weight: 700;
+  text-align: start;
+  cursor: pointer;
+}
+
+.knowledge-directory-module__toggle:hover {
+  color: var(--secondary);
+}
+
+.knowledge-directory-module__body .tree-item-children {
+  padding-inline-start: 0.35rem;
 }
 
 .sidebar.right .knowledge-module-switch {
@@ -1125,7 +1166,7 @@ footer {
   }
 
   .knowledge-sequence__item {
-    min-block-size: 3.9rem;
+    min-block-size: 3.15rem;
   }
 
   .knowledge-module-picker__grid {

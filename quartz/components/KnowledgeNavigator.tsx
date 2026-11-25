@@ -150,24 +150,110 @@ KnowledgeNavigator.afterDOMLoaded = `
   const filterExplorer = () => {
     const list = document.querySelector(".explorer-content #list-0")
     if (!(list instanceof HTMLElement)) return
+    buildExplorerGroups()
+
+    Array.from(list.querySelectorAll(":scope > [data-directory-module]")).forEach((group) => {
+      if (!(group instanceof HTMLElement)) return
+      const groupModule = group.dataset.directoryModule
+      const isActive = groupModule === activeModuleForExplorer
+      group.hidden = Boolean(activeModuleForExplorer) && !isActive
+      setExplorerGroupOpen(group, Boolean(activeModuleForExplorer) && isActive)
+    })
+  }
+
+  const setExplorerGroupOpen = (group, open) => {
+    const button = group.querySelector(".knowledge-directory-module__toggle")
+    const body = group.querySelector(".knowledge-directory-module__body")
+    if (!(button instanceof HTMLButtonElement) || !(body instanceof HTMLElement)) return
+
+    button.setAttribute("aria-expanded", String(open))
+    group.classList.toggle("is-collapsed", !open)
+    body.hidden = !open
+    body.classList.toggle("open", open)
+  }
+
+  const buildExplorerGroups = () => {
+    const list = document.querySelector(".explorer-content #list-0")
+    if (!(list instanceof HTMLElement)) return
+    if (list.querySelector(":scope > [data-directory-module]")) return
+
+    const cItems = []
+    const linuxItems = []
+    let iconTemplate
 
     Array.from(list.children).forEach((item) => {
-      if (!(item instanceof HTMLElement)) return
+      if (!(item instanceof HTMLElement) || item.classList.contains("overflow-end")) return
       const folder = item.querySelector("[data-folderpath]")
       if (!(folder instanceof HTMLElement)) return
 
       const path = (folder.dataset.folderpath || "").toLowerCase()
-      const itemModule = path.startsWith("linux系统编程/")
-        ? "linux"
-        : /^\\d+\\./.test(path.split("/")[0] || "")
-          ? "c"
-          : undefined
+      iconTemplate ||= item.querySelector(".folder-icon")?.cloneNode(true)
 
-      item.hidden =
-        Boolean(activeModuleForExplorer) &&
-        Boolean(itemModule) &&
-        itemModule !== activeModuleForExplorer
+      if (path.startsWith("linux系统编程/")) {
+        linuxItems.push(
+          ...Array.from(
+            item.querySelectorAll(
+              ":scope > .folder-outer > .content > li",
+            ),
+          ),
+        )
+        item.remove()
+        return
+      }
+
+      if (/^\\d+\\./.test(path.split("/")[0] || "")) cItems.push(item)
     })
+
+    if (cItems.length === 0 && linuxItems.length === 0) return
+
+    const overflowEnd = list.querySelector(":scope > .overflow-end")
+    const makeGroup = (module, title, items) => {
+      const group = document.createElement("li")
+      group.className = "knowledge-directory-module is-collapsed"
+      group.dataset.directoryModule = module
+
+      const header = document.createElement("div")
+      header.className =
+        "folder-container nav-folder-title tree-item-self knowledge-directory-module__header"
+
+      if (iconTemplate instanceof SVGElement) header.appendChild(iconTemplate.cloneNode(true))
+
+      const headerContent = document.createElement("div")
+      const button = document.createElement("button")
+      button.type = "button"
+      button.className = "knowledge-directory-module__toggle"
+      button.setAttribute("aria-expanded", "false")
+
+      const label = document.createElement("span")
+      label.className = "folder-title"
+      label.textContent = title
+      button.appendChild(label)
+      headerContent.appendChild(button)
+      header.appendChild(headerContent)
+
+      const outer = document.createElement("div")
+      outer.className = "folder-outer knowledge-directory-module__body"
+      outer.hidden = true
+      const nestedList = document.createElement("ul")
+      nestedList.className = "content tree-item-children"
+      nestedList.append(...items)
+      outer.appendChild(nestedList)
+
+      group.append(header, outer)
+      button.addEventListener("click", () => {
+        setExplorerGroupOpen(
+          group,
+          button.getAttribute("aria-expanded") !== "true",
+        )
+      })
+
+      return group
+    }
+
+    const cGroup = makeGroup("c", "C 语言", cItems)
+    const linuxGroup = makeGroup("linux", "Linux 系统编程", linuxItems)
+    list.insertBefore(cGroup, overflowEnd || null)
+    list.insertBefore(linuxGroup, overflowEnd || null)
   }
 
   const observeExplorer = () => {
