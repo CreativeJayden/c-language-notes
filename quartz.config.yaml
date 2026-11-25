@@ -131,6 +131,7 @@ plugins:
     enabled: true
     options:
       title: 课程目录
+      folderClickBehavior: collapse
     layout:
       position: left
       priority: 50

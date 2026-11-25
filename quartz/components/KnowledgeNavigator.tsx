@@ -22,6 +22,17 @@ KnowledgeNavigator.beforeDOMLoaded = `
 (() => {
   const originalScrollIntoView = Element.prototype.scrollIntoView
 
+  const hideExplorerArrows = () => {
+    document.querySelectorAll("#template-folder .folder-icon").forEach((icon) => icon.remove())
+    document.querySelector(".explorer .title-button .fold")?.remove()
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", hideExplorerArrows, { once: true })
+  } else {
+    hideExplorerArrows()
+  }
+
   Element.prototype.scrollIntoView = function (...args) {
     if (!(this instanceof Element) || !this.closest(".explorer")) {
       return originalScrollIntoView.apply(this, args)
@@ -148,7 +159,7 @@ KnowledgeNavigator.afterDOMLoaded = `
       const isActive = link.dataset.knowledgeModule === activeModule
       link.classList.toggle("is-active", isActive)
       if (isActive) {
-        link.setAttribute("aria-current", "location")
+        link.setAttribute("aria-current", "page")
       } else {
         link.removeAttribute("aria-current")
       }
@@ -159,9 +170,6 @@ KnowledgeNavigator.afterDOMLoaded = `
 
   const syncHomeModule = (activeModule) => {
     document.body.dataset.homeModule = activeModule || ""
-
-    const picker = document.querySelector(".knowledge-module-picker")
-    if (picker instanceof HTMLElement) picker.hidden = Boolean(activeModule)
 
     const markdown = document.querySelector(".center > article .markdown-rendered")
     if (!(markdown instanceof HTMLElement)) return
@@ -185,7 +193,7 @@ KnowledgeNavigator.afterDOMLoaded = `
     const list = document.querySelector(".explorer-content #list-0")
     if (!(list instanceof HTMLElement)) return
     buildExplorerGroups()
-    retargetExplorerFolders()
+    replaceFolderTitleButtons(list)
 
     Array.from(list.querySelectorAll(":scope > [data-directory-module]")).forEach((group) => {
       if (!(group instanceof HTMLElement)) return
@@ -196,20 +204,18 @@ KnowledgeNavigator.afterDOMLoaded = `
     })
   }
 
-  const retargetExplorerFolders = () => {
-    const list = document.querySelector(".explorer-content #list-0")
-    if (!(list instanceof HTMLElement)) return
+  const replaceFolderTitleButtons = (root) => {
+    root.querySelectorAll(".folder-container").forEach((folder) => {
+      const button = folder.querySelector(".folder-button")
+      if (!(button instanceof HTMLButtonElement)) return
+      const title = button.querySelector(".folder-title")
+      const heading = document.createElement("span")
+      heading.className = "knowledge-folder-title"
+      heading.textContent = title?.textContent || ""
+      button.replaceWith(heading)
 
-    list.querySelectorAll("[data-folderpath]").forEach((folder) => {
-      if (!(folder instanceof HTMLElement)) return
-      const item = folder.closest("li")
-      if (!(item instanceof HTMLElement)) return
-
-      const firstNote = item.querySelector(
-        ".folder-outer .nav-file-title[href]",
-      )
-      if (!(firstNote instanceof HTMLAnchorElement)) return
-      folder.dataset.knowledgeFirstNoteHref = firstNote.href
+      const outer = folder.parentElement?.querySelector(":scope > .folder-outer")
+      outer?.classList.add("open")
     })
   }
 
@@ -410,31 +416,10 @@ KnowledgeNavigator.afterDOMLoaded = `
   const run = () => {
     layoutKnowledgeHeader()
     syncActiveModule()
+    document.querySelectorAll(".explorer .title-button .fold").forEach((icon) => icon.remove())
     observeExplorer()
     void renderSequence()
   }
-
-  const captureFolderLinks = (event) => {
-    if (!(event.target instanceof Element)) return
-    if (event.type === "pointerdown") return
-    const folder = event.target.closest(".folder-container")
-    if (!(folder instanceof HTMLElement)) return
-
-    const container = folder.querySelector("[data-folderpath]")
-    if (!(container instanceof HTMLElement)) return
-
-    const href = container.dataset.knowledgeFirstNoteHref
-    if (!href) return
-    const isKeyboard =
-      event.type === "keydown" && (event.key === "Enter" || event.key === " ")
-    if (event.type !== "click" && !isKeyboard) return
-    event.preventDefault()
-    window.location.href = href
-  }
-
-  document.addEventListener("click", captureFolderLinks, true)
-  document.addEventListener("pointerdown", captureFolderLinks, true)
-  document.addEventListener("keydown", captureFolderLinks, true)
 
   document.addEventListener("nav", run)
   document.addEventListener("render", run)

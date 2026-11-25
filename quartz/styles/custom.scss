@@ -734,83 +734,6 @@ footer {
   display: none;
 }
 
-/* Initial module picker */
-.knowledge-module-picker {
-  width: 100%;
-}
-
-.knowledge-module-picker__eyebrow {
-  margin: 0 0 0.8rem;
-  color: var(--gray);
-  font-size: 0.8rem;
-  font-weight: 700;
-}
-
-.knowledge-module-picker__grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.knowledge-module-picker__item {
-  display: grid;
-  min-block-size: 10.5rem;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: start;
-  gap: 1rem;
-  padding: 1.15rem;
-  border: 1px solid var(--lightgray);
-  border-radius: 7px;
-  background: var(--surface-soft);
-  color: var(--darkgray);
-  text-decoration: none;
-}
-
-.knowledge-module-picker__item:hover {
-  border-color: var(--secondary);
-  background: var(--hover-surface);
-}
-
-.knowledge-module-picker__icon {
-  display: grid;
-  inline-size: 3.5rem;
-  block-size: 3.5rem;
-  place-items: center;
-  border-radius: 7px;
-  background: #2f5f91;
-  color: #fff;
-}
-
-.knowledge-module-picker__icon.is-linux {
-  background: #59672f;
-}
-
-.knowledge-module-picker__icon svg {
-  inline-size: 1.75rem;
-  block-size: 1.75rem;
-}
-
-.knowledge-module-picker__copy {
-  display: grid;
-  gap: 0.45rem;
-}
-
-.knowledge-module-picker__copy strong {
-  font-size: 1.2rem;
-}
-
-.knowledge-module-picker__copy > span {
-  color: var(--gray);
-  line-height: 1.55;
-}
-
-.knowledge-module-picker__copy small {
-  margin-block-start: 0.25rem;
-  color: var(--secondary);
-  font-size: 0.78rem;
-  font-weight: 700;
-}
-
 /* Right-side module chooser */
 .knowledge-module-switch {
   width: 100%;
@@ -853,7 +776,8 @@ footer {
   background: var(--hover-surface);
 }
 
-.knowledge-module-switch__item.is-active {
+.knowledge-module-switch__item.is-active,
+.knowledge-module-switch__item[aria-current="page"] {
   border-color: var(--secondary);
   box-shadow: inset 3px 0 0 var(--secondary);
 }
@@ -1020,13 +944,17 @@ footer {
   background: var(--surface-soft);
 }
 
-.knowledge-directory-module__header .folder-icon {
-  flex: 0 0 auto;
-  transition: transform 0.15s ease;
+.explorer .folder-icon,
+.explorer .title-button .fold {
+  display: none !important;
 }
 
-.knowledge-directory-module.is-collapsed .knowledge-directory-module__header .folder-icon {
-  transform: rotate(-90deg);
+.explorer .knowledge-folder-title {
+  color: var(--secondary);
+  font-family: var(--headerFont);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.5rem;
 }
 
 .knowledge-directory-module__toggle {
@@ -1201,14 +1129,6 @@ footer {
     min-block-size: 3.15rem;
   }
 
-  .knowledge-module-picker__grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .knowledge-module-picker__item {
-    min-block-size: 8rem;
-    gap: 0.85rem;
-  }
 }
 
 @media (pointer: coarse) {

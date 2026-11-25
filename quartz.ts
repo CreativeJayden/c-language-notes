@@ -1,7 +1,6 @@
 import { loadQuartzConfig, loadQuartzLayout } from "./quartz/plugins/loader/config-loader"
 import Flex from "./quartz/components/Flex"
 import KnowledgeNavigator from "./quartz/components/KnowledgeNavigator"
-import ModulePicker from "./quartz/components/ModulePicker"
 import ModuleSwitcher from "./quartz/components/ModuleSwitcher"
 import SkinSwitcher from "./quartz/components/SkinSwitcher"
 
@@ -35,7 +34,6 @@ if (toolbarIndex >= 0) {
 
 header.push(ModuleSwitcher({ compact: true }))
 right.unshift(ModuleSwitcher({ compact: false }))
-beforeBody.unshift(ModulePicker())
 beforeBody.unshift(KnowledgeNavigator())
 
 export const layout = await loadQuartzLayout({

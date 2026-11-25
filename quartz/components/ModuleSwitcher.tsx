@@ -55,7 +55,7 @@ export default ((options: ModuleSwitcherOptions = {}) => {
                 class="knowledge-module-switch__item"
                 data-knowledge-module={module.id}
                 href={href}
-                aria-current={activeModule === module.id ? "location" : undefined}
+                aria-current={activeModule === module.id ? "page" : undefined}
               >
                 <span class="knowledge-module-switch__icon">
                   <ModuleIcon module={module.id} />
