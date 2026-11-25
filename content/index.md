@@ -1,5 +1,5 @@
 ---
-title: AAA知识导航
+title: 知识库
 description: 按课程顺序整理的 C 语言与 Linux 系统编程知识库。
 ---
 

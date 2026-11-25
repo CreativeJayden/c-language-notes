@@ -1,6 +1,6 @@
-# C语言知识库
+# 知识库
 
-按课程顺序整理的 C 语言公开笔记与示例代码，使用 Quartz 生成静态网站，并通过 GitHub Pages 发布。
+按课程顺序整理的 C 语言与 Linux 系统编程公开知识库，使用 Quartz 生成静态网站，并通过 GitHub Pages 发布。
 
 在线访问：<https://CreativeJayden.github.io/c-language-notes/>
 
